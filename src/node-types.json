@@ -1,0 +1,55 @@
+[
+  {
+    "type": "latex",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rnoweb_content",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rnoweb_environment",
+    "named": true,
+    "fields": {
+      "rnoweb_content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "rnoweb_content",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "latex",
+          "named": true
+        },
+        {
+          "type": "rnoweb_environment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "<<>>==",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  }
+]

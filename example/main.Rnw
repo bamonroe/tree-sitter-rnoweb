@@ -1,0 +1,38 @@
+\documentclass[12pt,a4paper]{article}
+
+\title{Template Document}
+\author{Brian Albert Monroe${}^*$}
+
+\begin{document}
+\pagenumbering{arabic}
+\maketitle
+
+\begin{abstract}
+	Space for the abstract.
+\end{abstract}
+
+% Give affiliation at the bottom of the page
+\vspace{\fill}
+${}^\ast$ School of Philosophy, University College Dublin
+
+\break
+
+% Set it up so references in the main section show up in the main
+% references.
+\newrefsection
+\doublespacing
+\section{Introduction}
+
+This is the start of the main text.
+
+<<echo = T>>==
+1 + 1
+@
+
+% Main bibliography reference section
+\break
+\singlespacing
+\printbibliography
+\break
+
+\end{document}

@@ -1,0 +1,21 @@
+{
+  "name": "tree-sitter-rnoweb",
+  "version": "1.0.0",
+  "description": "tree-sitter parser for rnoweb documents",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rnoweb",
+    "r"
+  ],
+  "author": "Brian Albert Monroe",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.6"
+  }
+}

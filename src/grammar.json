@@ -1,0 +1,88 @@
+{
+  "name": "rnoweb",
+  "rules": {
+    "source_file": {
+      "type": "REPEAT",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "rnoweb_environment"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "latex"
+          }
+        ]
+      }
+    },
+    "rnoweb_environment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<<>>=="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "rnoweb_content",
+              "content": {
+                "type": "SYMBOL",
+                "name": "rnoweb_content"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "@"
+        }
+      ]
+    },
+    "rnoweb_content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^@]+"
+      }
+    },
+    "latex": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "FIELD",
+        "name": "latex",
+        "content": {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_word"
+          }
+        }
+      }
+    },
+    "_word": {
+      "type": "PATTERN",
+      "value": "[^<]+"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+
