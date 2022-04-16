@@ -25,7 +25,7 @@ ${}^\ast$ School of Philosophy, University College Dublin
 
 This is the start of the main text.
 
-<<echo = T>>==
+<<echo = T, results = "asis">>==
 1 + 1
 @
 

@@ -7,8 +7,12 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "rnoweb_environment"
+            "type": "PREC",
+            "value": 2,
+            "content": {
+              "type": "SYMBOL",
+              "name": "rnoweb_environment"
+            }
           },
           {
             "type": "SYMBOL",
@@ -21,8 +25,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "<<>>=="
+          "type": "SYMBOL",
+          "name": "rnoweb_sig"
         },
         {
           "type": "CHOICE",
@@ -45,6 +49,132 @@
           "value": "@"
         }
       ]
+    },
+    "rnoweb_sig": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<<"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "rnoweb_options"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ">>=="
+        }
+      ]
+    },
+    "rnoweb_options": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "key_val"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "key_val"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "key_val"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "key_val"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "label",
+          "content": {
+            "type": "SYMBOL",
+            "name": "rvar"
+          }
+        }
+      ]
+    },
+    "key_val": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "rvar"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "SYMBOL",
+                "name": "rval"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "SYMBOL",
+                "name": "rval"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "rvar": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z]{1}[a-zA-Z0-9_]*"
+    },
+    "rval": {
+      "type": "PATTERN",
+      "value": "[^>]+"
     },
     "rnoweb_content": {
       "type": "REPEAT1",

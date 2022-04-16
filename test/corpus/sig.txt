@@ -11,6 +11,58 @@ renv empty sig
 (source_file
 	(latex)
 	(rnoweb_environment
+		(rnoweb_sig)
+		(rnoweb_content)
+	)
+	(latex)
+)
+
+
+==================
+renv echo sig
+==================
+
+<< echo = T >>==
+	one <- 1 + 1
+@
+
+---
+
+(source_file
+	(latex)
+	(rnoweb_environment
+		(rnoweb_sig
+			(rnoweb_options
+				(key_val
+					(rvar)
+					(rval)
+				)
+			)
+		)
+		(rnoweb_content)
+	)
+	(latex)
+)
+
+
+==================
+renv label sig
+==================
+
+<< mychunck >>==
+	one <- 1 + 1
+@
+
+---
+
+(source_file
+	(latex)
+	(rnoweb_environment
+		(rnoweb_sig
+			(rnoweb_options
+				(rvar)
+			)
+		)
 		(rnoweb_content)
 	)
 	(latex)

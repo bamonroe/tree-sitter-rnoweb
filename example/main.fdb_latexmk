@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1650124962 "/home/bam/build/tree-sitter-rnoweb/example/main.tex" "main.pdf" "main" 1650124962
-  "/home/bam/build/tree-sitter-rnoweb/example/main.tex" 1650124961 3073 a8cc2f33ec92b58c36ccb7518efc5579 ""
+["pdflatex"] 1650135707 "/home/bam/build/tree-sitter-rnoweb/example/main.tex" "main.pdf" "main" 1650135707
+  "/home/bam/build/tree-sitter-rnoweb/example/main.tex" 1650135707 2941 a27f624d95e0f3fe28349d3863149e7b ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1647844622 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1647844622 1524 4414a8315f39513458b80dfc63bff03a ""
@@ -34,8 +34,8 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1647850480 4278762 af3ac1370db81a450c1118eabf1fe718 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1647850451 2924506 9771f2f6b92993a1f3248f56bc052d4f ""
-  "main.aux" 1650123733 8 a94a2480d3289e625eea47cd1b285758 "pdflatex"
-  "main.tex" 1650124961 3073 a8cc2f33ec92b58c36ccb7518efc5579 ""
+  "main.aux" 1650124962 8 a94a2480d3289e625eea47cd1b285758 "pdflatex"
+  "main.tex" 1650135707 2941 a27f624d95e0f3fe28349d3863149e7b ""
   (generated)
   "main.aux"
   "main.log"
