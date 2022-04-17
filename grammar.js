@@ -5,7 +5,7 @@ module.exports = grammar({
 		source_file: $ => 
 			repeat(
 				choice(
-					prec(2, $.rnoweb_environment),
+					$.rnoweb_environment,
 					$.latex
 				)
 			),
@@ -65,10 +65,19 @@ module.exports = grammar({
 			repeat1(/[^@]+/),
 
 		latex: $ =>
-			prec.left(1, field("latex", repeat1($._word))),
+			field("latex", 
+				prec.left($._lsegment),
+			),
+
+		_lsegment: $ =>
+			repeat1(
+				choice(
+					/[^<]?<[^<]+/,
+					/[^<]+/
+				),
+			),
+
 			
-		_word: $ =>
-			/[^<]+/
 
 	},
 });

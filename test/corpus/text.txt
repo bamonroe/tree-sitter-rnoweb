@@ -9,3 +9,43 @@ a bit of latex
 (source_file
 	(latex)
 )
+
+==================
+equality sign
+==================
+
+We all know that 1 < 2.
+
+<<>>==
+@
+
+---
+
+(source_file
+	(latex)
+	(rnoweb_environment
+		(rnoweb_sig)
+		(rnoweb_content)
+	)
+	(latex)
+)
+
+==================
+math environment
+==================
+
+\begin{align}
+	\begin{split}
+		\label{eq:common_ratio}
+		EU(A) &= \tau (1 - p_j) \times u_j + \tau p_j \times u_l \\
+		EU(B) &= \tau (1 - q_j) \times u_j + \tau q_j \times u_k \\
+					& j < k < l \\
+					& 0 \leq \tau \leq 1
+	\end{split}
+\end{align}
+
+---
+
+(source_file
+	(latex)
+)
