@@ -14,12 +14,9 @@ module.exports = grammar({
 			),
 
 		latex: $ =>
-			prec.left(repeat1(
+			prec.right(repeat1(
 					$.latex_word,
 			)),
-
-		//latex_word: $=>
-		//	/[^<]+/
 
 	},
 });

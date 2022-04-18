@@ -1,11 +1,31 @@
 ==================
 hello world
 ==================
-
-a bit of latex
+bit of latex
 
 ---
 
 (source_file
-	(latex)
+	(latex
+		(latex_word)
+		(latex_word)
+		(latex_word)
+	)
+)
+
+==================
+hello world
+==================
+
+a bit of \textit{latex}
+
+---
+
+(source_file
+	(latex
+		(latex_word)
+		(latex_word)
+		(latex_word)
+		(latex_word)
+	)
 )

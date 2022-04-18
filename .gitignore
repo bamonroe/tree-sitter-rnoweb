@@ -1,6 +1,7 @@
 # The Rnweb example file makes lots of other files if you try and compile it, ignore all of these
 example/*
 !example/*.Rnw
+src/.ccls
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,node,visualstudiocode,rust
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,node,visualstudiocode,rust

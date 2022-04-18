@@ -147,28 +147,29 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
 };
 
 static const uint16_t ts_small_parse_table[] = {
-  [0] = 2,
-    STATE(5), 1,
-      aux_sym_latex_repeat1,
-    ACTIONS(14), 2,
-      sym_latex_word,
+  [0] = 3,
+    ACTIONS(14), 1,
       ts_builtin_sym_end,
-  [8] = 3,
     ACTIONS(16), 1,
-      ts_builtin_sym_end,
-    ACTIONS(18), 1,
       sym_latex_word,
     STATE(5), 1,
       aux_sym_latex_repeat1,
-  [18] = 1,
-    ACTIONS(21), 1,
+  [10] = 3,
+    ACTIONS(18), 1,
+      ts_builtin_sym_end,
+    ACTIONS(20), 1,
+      sym_latex_word,
+    STATE(5), 1,
+      aux_sym_latex_repeat1,
+  [20] = 1,
+    ACTIONS(23), 1,
       ts_builtin_sym_end,
 };
 
 static const uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(4)] = 0,
-  [SMALL_STATE(5)] = 8,
-  [SMALL_STATE(6)] = 18,
+  [SMALL_STATE(5)] = 10,
+  [SMALL_STATE(6)] = 20,
 };
 
 static const TSParseActionEntry ts_parse_actions[] = {
@@ -180,9 +181,10 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [9] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2),
   [11] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2), SHIFT_REPEAT(4),
   [14] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_latex, 1),
-  [16] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_latex_repeat1, 2),
-  [18] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_latex_repeat1, 2), SHIFT_REPEAT(5),
-  [21] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
+  [16] = {.entry = {.count = 1, .reusable = true}}, SHIFT(5),
+  [18] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_latex_repeat1, 2),
+  [20] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_latex_repeat1, 2), SHIFT_REPEAT(5),
+  [23] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
 };
 
 #ifdef __cplusplus
