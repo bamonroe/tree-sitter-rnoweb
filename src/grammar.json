@@ -9,9 +9,129 @@
           {
             "type": "SYMBOL",
             "name": "latex"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "renv"
           }
         ]
       }
+    },
+    "renv": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "renv_sig_beg"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_renv_sig_options"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "renv_sig_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "renv_content"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "@"
+        }
+      ]
+    },
+    "_renv_sig_options": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "label",
+          "content": {
+            "type": "PATTERN",
+            "value": "[a-zA-Z_]+[a-zA-Z0-9_]*"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "renv_key_pair"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "renv_key_pair"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "renv_key_pair": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "renv_key"
+          }
+        },
+        {
+          "type": "PATTERN",
+          "value": "[ ]*=[ ]*"
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "renv_val"
+          }
+        }
+      ]
+    },
+    "renv_key": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_]+[a-zA-Z0-9_]*"
+    },
+    "renv_val": {
+      "type": "PATTERN",
+      "value": "[^,>]+"
+    },
+    "renv_content": {
+      "type": "PATTERN",
+      "value": "[^@]+"
     },
     "latex": {
       "type": "PREC_RIGHT",
@@ -20,7 +140,7 @@
         "type": "REPEAT1",
         "content": {
           "type": "SYMBOL",
-          "name": "latex_word"
+          "name": "_latex_word"
         }
       }
     }
@@ -36,7 +156,15 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "latex_word"
+      "name": "_latex_word"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "renv_sig_beg"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "renv_sig_end"
     }
   ],
   "inline": [],

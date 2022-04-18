@@ -6,26 +6,125 @@ bit of latex
 ---
 
 (source_file
-	(latex
-		(latex_word)
-		(latex_word)
-		(latex_word)
-	)
+	(latex)
 )
 
 ==================
-hello world
+Add a real command
 ==================
 
-a bit of \textit{latex}
+a bit of	\textit{latex}
 
 ---
 
 (source_file
-	(latex
-		(latex_word)
-		(latex_word)
-		(latex_word)
-		(latex_word)
+	(latex)
+)
+
+==================
+rnw signature
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<>>==
+@
+
+---
+
+(source_file
+	(latex)
+	(renv
+		(renv_sig_beg)
+		(renv_sig_end)
 	)
+)
+
+==================
+rnw signature - with options
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<echo = T>>==
+@
+
+---
+
+(source_file
+	(latex)
+	(renv
+		(renv_sig_beg)
+		(renv_key_pair
+			(renv_key)
+			(renv_val)
+		)
+		(renv_sig_end)
+	)
+)
+
+==================
+rnw signature - with options
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<echo = T, results = "asis">>==
+@
+
+---
+
+(source_file
+	(latex)
+	(renv
+		(renv_sig_beg)
+		(renv_key_pair
+			(renv_key)
+			(renv_val)
+		)
+		(renv_key_pair
+			(renv_key)
+			(renv_val)
+		)
+		(renv_sig_end)
+	)
+)
+
+==================
+rnw signature - with text
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<echo = T, results = "asis">>==
+one <- 1 + 1
+@
+
+Back again!
+---
+
+(source_file
+	(latex)
+	(renv
+		(renv_sig_beg)
+		(renv_key_pair
+			(renv_key)
+			(renv_val)
+		)
+		(renv_key_pair
+			(renv_key)
+			(renv_val)
+		)
+		(renv_sig_end)
+		(renv_content)
+	)
+	(latex)
 )

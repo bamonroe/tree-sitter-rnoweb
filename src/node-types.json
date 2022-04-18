@@ -2,16 +2,64 @@
   {
     "type": "latex",
     "named": true,
+    "fields": {}
+  },
+  {
+    "type": "renv",
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "latex_word",
+          "type": "renv_content",
+          "named": true
+        },
+        {
+          "type": "renv_key_pair",
+          "named": true
+        },
+        {
+          "type": "renv_sig_beg",
+          "named": true
+        },
+        {
+          "type": "renv_sig_end",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "renv_key",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "renv_key_pair",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "renv_key",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "renv_val",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -25,12 +73,36 @@
         {
           "type": "latex",
           "named": true
+        },
+        {
+          "type": "renv",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "latex_word",
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "renv_content",
+    "named": true
+  },
+  {
+    "type": "renv_sig_beg",
+    "named": true
+  },
+  {
+    "type": "renv_sig_end",
+    "named": true
+  },
+  {
+    "type": "renv_val",
     "named": true
   }
 ]
