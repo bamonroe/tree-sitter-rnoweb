@@ -1,102 +1,14 @@
 [
   {
-    "type": "key_val",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "rvar",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "rval",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "latex",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "rnoweb_content",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "rnoweb_environment",
-    "named": true,
-    "fields": {
-      "rnoweb_content": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "rnoweb_content",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "rnoweb_sig",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "rnoweb_options",
-    "named": true,
-    "fields": {
-      "label": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "rvar",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "key_val",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "rnoweb_sig",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
-          "type": "rnoweb_options",
+          "type": "latex_word",
           "named": true
         }
       ]
@@ -113,40 +25,12 @@
         {
           "type": "latex",
           "named": true
-        },
-        {
-          "type": "rnoweb_environment",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": ",",
-    "named": false
-  },
-  {
-    "type": "<<",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": ">>==",
-    "named": false
-  },
-  {
-    "type": "@",
-    "named": false
-  },
-  {
-    "type": "rval",
-    "named": true
-  },
-  {
-    "type": "rvar",
+    "type": "latex_word",
     "named": true
   }
 ]

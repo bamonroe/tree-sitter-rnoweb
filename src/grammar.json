@@ -8,203 +8,20 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "rnoweb_environment"
-          },
-          {
-            "type": "SYMBOL",
             "name": "latex"
           }
         ]
       }
     },
-    "rnoweb_environment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "rnoweb_sig"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "rnoweb_content",
-              "content": {
-                "type": "SYMBOL",
-                "name": "rnoweb_content"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "@"
-        }
-      ]
-    },
-    "rnoweb_sig": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<<"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "rnoweb_options"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ">>=="
-        }
-      ]
-    },
-    "rnoweb_options": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "key_val"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "key_val"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "key_val"
-                  }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "key_val"
-              }
-            ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "label",
-          "content": {
-            "type": "SYMBOL",
-            "name": "rvar"
-          }
-        }
-      ]
-    },
-    "key_val": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "key",
-          "content": {
-            "type": "SYMBOL",
-            "name": "rvar"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "value",
-              "content": {
-                "type": "SYMBOL",
-                "name": "rval"
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "value",
-              "content": {
-                "type": "SYMBOL",
-                "name": "rval"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    "rvar": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z]{1}[a-zA-Z0-9_]*"
-    },
-    "rval": {
-      "type": "PATTERN",
-      "value": "[^>]+"
-    },
-    "rnoweb_content": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "PATTERN",
-        "value": "[^@]+"
-      }
-    },
     "latex": {
-      "type": "FIELD",
-      "name": "latex",
+      "type": "PREC_LEFT",
+      "value": 0,
       "content": {
-        "type": "PREC_LEFT",
-        "value": 0,
+        "type": "REPEAT1",
         "content": {
           "type": "SYMBOL",
-          "name": "_lsegment"
+          "name": "latex_word"
         }
-      }
-    },
-    "_lsegment": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[^<]?<[^<]+"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[^<]+"
-          }
-        ]
       }
     }
   },
@@ -216,7 +33,12 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "latex_word"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }

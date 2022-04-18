@@ -1,0 +1,9 @@
+==================
+hello world
+==================
+a bit of latex
+---
+
+(source_file
+	(latex)
+)
