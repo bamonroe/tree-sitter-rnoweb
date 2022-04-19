@@ -1,5 +1,0 @@
-PWD /home/bam/build/tree-sitter-rnoweb/example
-INPUT /usr/share/texmf-dist/web2c/texmf.cnf
-INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/bam/build/tree-sitter-rnoweb/example/main.tex
-OUTPUT main.log
