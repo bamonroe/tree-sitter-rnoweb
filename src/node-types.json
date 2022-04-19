@@ -10,7 +10,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "renv_content",
@@ -90,6 +90,10 @@
     "named": false
   },
   {
+    "type": "\\Sexp{",
+    "named": false
+  },
+  {
     "type": "renv_content",
     "named": true
   },
@@ -104,5 +108,9 @@
   {
     "type": "renv_val",
     "named": true
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

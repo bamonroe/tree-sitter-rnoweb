@@ -1,4 +1,5 @@
 const sepBy1 = (rule, sep) => seq(rule, repeat(seq(sep, rule)));
+
 const sepBy = (rule, sep) => optional(sepBy1(rule, sep));
 
 module.exports = grammar({
@@ -20,13 +21,20 @@ module.exports = grammar({
 			),
 
 		renv: $ => 
-			seq(
-				$.renv_sig_beg,
-				optional($._renv_sig_options),
-				$.renv_sig_end,
-				optional($.renv_content),
-				'@'
+			choice(
+				seq(
+					$.renv_sig_beg,
+					optional($._renv_sig_options),
+					$.renv_sig_end,
+					optional($.renv_content),
+					'@'
+					),
+				seq(
+					'\\Sexp{',
+					optional($.renv_content),
+					'}',
 				),
+			),
 
 		_renv_sig_options: $ =>
 			choice(

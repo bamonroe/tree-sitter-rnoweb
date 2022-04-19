@@ -29,7 +29,7 @@ a bit of \textit{latex}.
 
 We all know 2 > 1
 
-<<>>==
+<<>>=
 @
 
 ---
@@ -50,7 +50,7 @@ a bit of \textit{latex}.
 
 We all know 2 > 1
 
-<<echo = T>>==
+<<echo = T>>=
 @
 
 ---
@@ -75,7 +75,7 @@ a bit of \textit{latex}.
 
 We all know 2 > 1
 
-<<echo = T, results = "asis">>==
+<<echo = T, results = "asis">>=
 @
 
 ---
@@ -104,11 +104,12 @@ a bit of \textit{latex}.
 
 We all know 2 > 1
 
-<<echo = T, results = "asis">>==
+<<echo = T, results = "asis">>=
 one <- 1 + 1
 @
 
-Back again!
+Back again! We all know that 1 + 1 = \Sexp{1 + 1}
+
 ---
 
 (source_file

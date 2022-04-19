@@ -5,6 +5,9 @@
 
 #include <unistd.h>
 
+#define ESN 4
+#define SEXP 6
+
 enum TokenType {
 	_LATEX_WORD,
 	RENV_SIG_BEG,
@@ -26,8 +29,8 @@ bool sig_check(TSLexer* lexer)
 	int32_t val = lexer->lookahead;
 
 	bool insig = false, breaker = true;;
-	char tocheck[5] = {'>', '>', '=', '=', '\n'};
-	char seen[5];
+	char tocheck[ESN] = {'>', '>', '=', '\n'};
+	char seen[ESN];
 	int i = 0;
 
 	// The first character of the line needs to be '<'
@@ -54,7 +57,7 @@ bool sig_check(TSLexer* lexer)
 				if (val == '\n')
 				{
 						insig = true;
-						for (int j = 0; j < 5; j++)
+						for (int j = 0; j < ESN; j++)
 						{
 								insig = insig && (seen[j] == tocheck[j]);
 						}
@@ -66,6 +69,49 @@ bool sig_check(TSLexer* lexer)
 	}
 
 	return(insig);
+
+};
+
+bool sexp_check(TSLexer* lexer)
+{
+
+	int32_t val = lexer->lookahead;
+
+	char tocheck[SEXP] = {'\\', 'S', 'e', 'x', 'p', '{'};
+
+	bool found;
+	char seen[SEXP];
+	int i = 0;
+
+	if (val != tocheck[0]) return(false);
+
+	// Assign the seen value to the first element
+	seen[0] = val;
+
+	for (int i = 1; i < SEXP; i++)
+	{
+		// Move to the next char
+		lexer->advance(lexer, false);
+		val = lexer->lookahead;
+
+		// Push back
+		seen[i - 1] = seen[i];
+		seen[i] = val;
+
+		if (val == tocheck[SEXP - 1])
+		{
+				found = true;
+				for (int j = 0; j < ESN; j++)
+				{
+						found = found && (seen[j] == tocheck[j]);
+				}
+				break;
+		}
+
+	}
+
+	return(found);
+
 
 };
 
@@ -158,7 +204,6 @@ bool rnw_sig_beg(TSLexer* lexer)
 	return(res);
 }
 
-
 bool rnw_sig_end(TSLexer* lexer)
 {
 
@@ -166,12 +211,12 @@ bool rnw_sig_end(TSLexer* lexer)
 	if (lexer->eof(lexer)) return(false);
 
 	// We're at column 0, now is this character '<'
-	char tocheck[5] = {'>', '>', '=', '=', '\n'};
+	char tocheck[ESN] = {'>', '>', '=', '\n'};
 
 	bool res = true;
 	int32_t val = lexer->lookahead;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < ESN; i++)
 	{
 		// The current character
 		val = lexer->lookahead;
