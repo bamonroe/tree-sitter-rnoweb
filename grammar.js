@@ -9,6 +9,7 @@ module.exports = grammar({
 		$._latex_word,
 		$.renv_sig_beg,
 		$.renv_sig_end,
+		$.renv_content,
 	],
 
 	rules: {
@@ -30,8 +31,8 @@ module.exports = grammar({
 					'@'
 					),
 				seq(
-					'\\Sexp{',
-					optional($.renv_content),
+					'\\Sexpr{',
+					optional(alias(/[^}]+/, $.renv_content)),
 					'}',
 				),
 			),
@@ -54,9 +55,6 @@ module.exports = grammar({
 
 		renv_val: $ =>
 			/[^,>]+/,
-
-		renv_content: $ =>
-			/[^@]+/,
 
 		latex: $ =>
 			prec.right(repeat1(

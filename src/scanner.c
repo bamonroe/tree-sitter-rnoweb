@@ -6,12 +6,13 @@
 #include <unistd.h>
 
 #define ESN 4
-#define SEXP 6
+#define SEXPR 7
 
 enum TokenType {
 	_LATEX_WORD,
 	RENV_SIG_BEG,
 	RENV_SIG_END,
+	RNW_CONTENT,
 };
 
 bool ws(int32_t val)
@@ -71,16 +72,15 @@ bool sig_check(TSLexer* lexer)
 	return(insig);
 
 };
-
 bool sexp_check(TSLexer* lexer)
 {
 
 	int32_t val = lexer->lookahead;
 
-	char tocheck[SEXP] = {'\\', 'S', 'e', 'x', 'p', '{'};
+	char tocheck[SEXPR] = {'\\', 'S', 'e', 'x', 'p', 'r', '{'};
 
 	bool found;
-	char seen[SEXP];
+	char seen[SEXPR];
 	int i = 0;
 
 	if (val != tocheck[0]) return(false);
@@ -88,17 +88,16 @@ bool sexp_check(TSLexer* lexer)
 	// Assign the seen value to the first element
 	seen[0] = val;
 
-	for (int i = 1; i < SEXP; i++)
+	for (int i = 1; i < SEXPR; i++)
 	{
 		// Move to the next char
 		lexer->advance(lexer, false);
 		val = lexer->lookahead;
 
 		// Push back
-		seen[i - 1] = seen[i];
 		seen[i] = val;
 
-		if (val == tocheck[SEXP - 1])
+		if (val == tocheck[SEXPR - 1])
 		{
 				found = true;
 				for (int j = 0; j < ESN; j++)
@@ -112,6 +111,29 @@ bool sexp_check(TSLexer* lexer)
 
 	return(found);
 
+};
+
+bool rnw_content(TSLexer* lexer)
+{
+	// The current character
+	bool eof = lexer->eof(lexer);
+	if (eof) return(false);
+
+	int32_t col = lexer->get_column(lexer);
+	int32_t val = lexer->lookahead;
+
+	// Going to have to call it at having a "@" in the first column
+	while (
+		((lexer->get_column(lexer) != 0) || (lexer->lookahead != '@')) &&
+		(! lexer->eof(lexer))
+		) {
+		lexer->mark_end(lexer);
+		lexer->advance(lexer, false);
+	}
+
+
+	lexer->result_symbol = RNW_CONTENT;
+	return(true);
 
 };
 
@@ -141,7 +163,7 @@ bool lword(TSLexer* lexer)
 	// we're going to mark it a latex word.
 	// What column are we - 0 indexed
 	int32_t col = lexer->get_column(lexer);
-	if (! sig_check(lexer))
+	if ((!sig_check(lexer)) && (!sexp_check(lexer)))
 	{
 		// So assign the current token to latex word
 		lexer->result_symbol = _LATEX_WORD;
@@ -244,7 +266,6 @@ void advance_ws(TSLexer* lexer)
 	// If the current character is whitesapce, skip it
 	while (ws(lexer->lookahead)) lexer->advance(lexer, true);
 };
-
 void tree_sitter_rnoweb_external_scanner_create()
 {};
 void* tree_sitter_rnoweb_external_scanner_destroy(void *payload)
@@ -273,13 +294,27 @@ bool tree_sitter_rnoweb_external_scanner_scan(
 
 	bool res;
 
+	/*
+	printf("\n\nNew Call\n");
+	for (int i = 0; i < 4; i++)
+	{
+		printf("v[%d] = %d\t", i, valid_symbols[i]);
+	}
+	printf("\n");
+	*/
+
+
+
 	if (valid_symbols[0] || valid_symbols[1])
 	{
 		res = rnw_sig_beg(lexer);
 		res = res ? res : lword(lexer);
 	} else if (valid_symbols[2]) {
 		res = rnw_sig_end(lexer);
+	} else if (valid_symbols[3]) {
+		res = rnw_content(lexer);
 	}
+
 
 	return(res);
 };

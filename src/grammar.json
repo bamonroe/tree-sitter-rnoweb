@@ -66,14 +66,19 @@
           "members": [
             {
               "type": "STRING",
-              "value": "\\Sexp{"
+              "value": "\\Sexpr{"
             },
             {
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "renv_content"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^}]+"
+                  },
+                  "named": true,
+                  "value": "renv_content"
                 },
                 {
                   "type": "BLANK"
@@ -159,10 +164,6 @@
       "type": "PATTERN",
       "value": "[^,>]+"
     },
-    "renv_content": {
-      "type": "PATTERN",
-      "value": "[^@]+"
-    },
     "latex": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -195,6 +196,10 @@
     {
       "type": "SYMBOL",
       "name": "renv_sig_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "renv_content"
     }
   ],
   "inline": [],

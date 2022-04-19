@@ -39,6 +39,7 @@ We all know 2 > 1
 	(renv
 		(renv_sig_beg)
 		(renv_sig_end)
+		(renv_content)
 	)
 )
 
@@ -64,6 +65,7 @@ We all know 2 > 1
 			(renv_val)
 		)
 		(renv_sig_end)
+		(renv_content)
 	)
 )
 
@@ -93,6 +95,7 @@ We all know 2 > 1
 			(renv_val)
 		)
 		(renv_sig_end)
+		(renv_content)
 	)
 )
 
@@ -108,7 +111,7 @@ We all know 2 > 1
 one <- 1 + 1
 @
 
-Back again! We all know that 1 + 1 = \Sexp{1 + 1}
+Back again!
 
 ---
 
@@ -125,6 +128,40 @@ Back again! We all know that 1 + 1 = \Sexp{1 + 1}
 			(renv_val)
 		)
 		(renv_sig_end)
+		(renv_content)
+	)
+	(latex)
+)
+
+==================
+Sexpr command - empty
+==================
+
+a bit of \textit{latex}.
+
+Back again! We all know that 1 + 1 = \Sexpr{}.
+
+---
+
+(source_file
+	(latex)
+	(renv)
+	(latex)
+)
+
+==================
+Sexpr command - With content
+==================
+
+a bit of \textit{latex}.
+
+Back again! We all know that 1 + 1 = \Sexpr{1 + 1}.
+
+---
+
+(source_file
+	(latex)
+	(renv
 		(renv_content)
 	)
 	(latex)
