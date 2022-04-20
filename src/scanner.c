@@ -175,11 +175,12 @@ bool lword(TSLexer* lexer)
 			val = lexer->lookahead;
 			eof = lexer->eof(lexer);
 
-			// When we've hit whitespace, break
-			if (ws(val) || eof)
+			// Mark the current position as the end
+			lexer->mark_end(lexer);
+
+			// When we've hit whitespace or a Sexpr envir, break
+			if (ws(val) || eof || sexp_check(lexer))
 			{
-					// Mark the current position as the end
-					lexer->mark_end(lexer);
 					break;
 			}
 		}

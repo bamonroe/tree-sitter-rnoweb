@@ -3,6 +3,7 @@ example/*
 !example/*.Rnw
 !example/packages.tex
 src/.ccls-cache/
+.ccls-cache/
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,node,visualstudiocode,rust
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,node,visualstudiocode,rust

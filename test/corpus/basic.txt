@@ -166,3 +166,22 @@ Back again! We all know that 1 + 1 = \Sexpr{1 + 1}.
 	)
 	(latex)
 )
+
+
+==================
+Sexpr command - With content in math
+==================
+
+a bit of \textit{latex}.
+
+Back again! We all know that 1 + 1 = $\Sexpr{1 + 1}$.
+
+---
+
+(source_file
+	(latex)
+	(renv
+		(renv_content)
+	)
+	(latex)
+)
