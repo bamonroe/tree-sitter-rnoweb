@@ -13,28 +13,29 @@ module.exports = grammar({
 	],
 
 	rules: {
-		source_file: $ => 
+		source_file: $ =>
 			repeat(
 				choice(
 					$.latex,
-					$.renv,
+					$.rchunk,
+					$.rinline,
 				)
 			),
 
-		renv: $ => 
-			choice(
-				seq(
-					$.renv_sig_beg,
-					optional($._renv_sig_options),
-					$.renv_sig_end,
-					optional($.renv_content),
-					'@'
-					),
-				seq(
-					'\\Sexpr{',
-					optional(alias(/[^}]+/, $.renv_content)),
-					'}',
-				),
+		rchunk: $ =>
+			seq(
+				$.renv_sig_beg,
+				optional($._renv_sig_options),
+				$.renv_sig_end,
+				optional($.renv_content),
+				'@'
+			),
+
+		rinline: $ =>
+			seq(
+				'\\Sexpr{',
+				optional(alias(/[^}]+/, $.renv_content)),
+				'}',
 			),
 
 		_renv_sig_options: $ =>
@@ -60,7 +61,5 @@ module.exports = grammar({
 			prec.right(repeat1(
 				$._latex_word,
 			)),
-
-
 	},
 });

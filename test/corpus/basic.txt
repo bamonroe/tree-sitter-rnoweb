@@ -36,7 +36,7 @@ We all know 2 > 1
 
 (source_file
 	(latex)
-	(renv
+	(rchunk
 		(renv_sig_beg)
 		(renv_sig_end)
 		(renv_content)
@@ -58,7 +58,7 @@ We all know 2 > 1
 
 (source_file
 	(latex)
-	(renv
+	(rchunk
 		(renv_sig_beg)
 		(renv_key_pair
 			(renv_key)
@@ -84,7 +84,7 @@ We all know 2 > 1
 
 (source_file
 	(latex)
-	(renv
+	(rchunk
 		(renv_sig_beg)
 		(renv_key_pair
 			(renv_key)
@@ -117,7 +117,7 @@ Back again!
 
 (source_file
 	(latex)
-	(renv
+	(rchunk
 		(renv_sig_beg)
 		(renv_key_pair
 			(renv_key)
@@ -145,7 +145,7 @@ Back again! We all know that 1 + 1 = \Sexpr{}.
 
 (source_file
 	(latex)
-	(renv)
+	(rinline)
 	(latex)
 )
 
@@ -161,7 +161,7 @@ Back again! We all know that 1 + 1 = \Sexpr{1 + 1}.
 
 (source_file
 	(latex)
-	(renv
+	(rinline
 		(renv_content)
 	)
 	(latex)
@@ -180,7 +180,7 @@ Back again! We all know that 1 + 1 = $\Sexpr{1 + 1}$.
 
 (source_file
 	(latex)
-	(renv
+	(rinline
 		(renv_content)
 	)
 	(latex)

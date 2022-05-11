@@ -1,5 +1,5 @@
-PWD /home/bam/build/tree-sitter-rnoweb/example
+PWD /home/bam/git/v_dev/tree-sitter-rnoweb/example
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/bam/build/tree-sitter-rnoweb/example/diff.tex
+INPUT /home/bam/git/v_dev/tree-sitter-rnoweb/example/diff.tex
 OUTPUT diff.log

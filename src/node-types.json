@@ -5,12 +5,12 @@
     "fields": {}
   },
   {
-    "type": "renv",
+    "type": "rchunk",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "renv_content",
@@ -63,6 +63,21 @@
     }
   },
   {
+    "type": "rinline",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "renv_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -75,7 +90,11 @@
           "named": true
         },
         {
-          "type": "renv",
+          "type": "rchunk",
+          "named": true
+        },
+        {
+          "type": "rinline",
           "named": true
         }
       ]
