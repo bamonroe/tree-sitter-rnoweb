@@ -40,7 +40,6 @@ bool sig_check(TSLexer* lexer)
 		lexer->advance(lexer, false);
 		val = lexer->lookahead;
 
-
 		// The second character of the line also needs to be '<'
 		if (val == '<')
 		{
@@ -57,24 +56,22 @@ bool sig_check(TSLexer* lexer)
 
 				if (val == '\n')
 				{
-						insig = true;
-						for (int j = 0; j < ESN; j++)
-						{
-								insig = insig && (seen[j] == tocheck[j]);
-						}
-						break;
+					insig = true;
+					for (int j = 0; j < ESN; j++)
+					{
+						insig = insig && (seen[j] == tocheck[j]);
+					}
+					break;
 				}
-
 			}
 		}
 	}
 
 	return(insig);
-
 };
+
 bool sexp_check(TSLexer* lexer)
 {
-
 	int32_t val = lexer->lookahead;
 
 	char tocheck[SEXPR] = {'\\', 'S', 'e', 'x', 'p', 'r', '{'};
@@ -99,18 +96,16 @@ bool sexp_check(TSLexer* lexer)
 
 		if (val == tocheck[SEXPR - 1])
 		{
-				found = true;
-				for (int j = 0; j < ESN; j++)
-				{
-						found = found && (seen[j] == tocheck[j]);
-				}
-				break;
+			found = true;
+			for (int j = 0; j < ESN; j++)
+			{
+				found = found && (seen[j] == tocheck[j]);
+			}
+			break;
 		}
-
 	}
 
 	return(found);
-
 };
 
 bool rnw_content(TSLexer* lexer)
@@ -134,12 +129,10 @@ bool rnw_content(TSLexer* lexer)
 
 	lexer->result_symbol = RNW_CONTENT;
 	return(true);
-
 };
 
 bool lword(TSLexer* lexer)
 {
-
 	int dbug = 0;
 	bool res = false;
 
@@ -181,19 +174,16 @@ bool lword(TSLexer* lexer)
 			// When we've hit whitespace or a Sexpr envir, break
 			if (ws(val) || eof || sexp_check(lexer))
 			{
-					break;
+				break;
 			}
 		}
 		res = true;
 	}
-
-
 	return(res);
 }
 
 bool rnw_sig_beg(TSLexer* lexer)
 {
-
 	int dbug = 0;
 	bool res = false;
 
@@ -212,16 +202,16 @@ bool rnw_sig_beg(TSLexer* lexer)
 	// We're at column 0, now is this character '<'
 	if (val == '<')
 	{
-			// Get the next character
+		// Get the next character
+		lexer->advance(lexer, false);
+		val = lexer->lookahead;
+		// And is this character also '<'?
+		if (val == '<') {
+			res = true;
+			lexer->result_symbol = RENV_SIG_BEG;
 			lexer->advance(lexer, false);
-			val = lexer->lookahead;
-			// And is this character also '<'?
-			if (val == '<') {
-				res = true;
-				lexer->result_symbol = RENV_SIG_BEG;
-				lexer->advance(lexer, false);
-				lexer->mark_end(lexer);
-			}
+			lexer->mark_end(lexer);
+		}
 	}
 
 	return(res);
@@ -229,7 +219,6 @@ bool rnw_sig_beg(TSLexer* lexer)
 
 bool rnw_sig_end(TSLexer* lexer)
 {
-
 	// End of file, return false
 	if (lexer->eof(lexer)) return(false);
 
@@ -255,8 +244,8 @@ bool rnw_sig_end(TSLexer* lexer)
 
 	if (res)
 	{
-			lexer->result_symbol = RENV_SIG_END;
-			lexer->mark_end(lexer);
+		lexer->result_symbol = RENV_SIG_END;
+		lexer->mark_end(lexer);
 	}
 
 	return(res);
@@ -267,6 +256,7 @@ void advance_ws(TSLexer* lexer)
 	// If the current character is whitesapce, skip it
 	while (ws(lexer->lookahead)) lexer->advance(lexer, true);
 };
+
 void tree_sitter_rnoweb_external_scanner_create()
 {};
 void* tree_sitter_rnoweb_external_scanner_destroy(void *payload)
