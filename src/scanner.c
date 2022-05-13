@@ -20,92 +20,10 @@ bool ws(int32_t val)
 	return(val == ' ' || val == '\t' || val == '\n');
 }
 
-bool sig_check(TSLexer* lexer)
+void advance_ws(TSLexer* lexer)
 {
-
-	int col = lexer->get_column(lexer);
-
-	if (col > 0) return(false);
-
-	int32_t val = lexer->lookahead;
-
-	bool insig = false, breaker = true;;
-	char tocheck[ESN] = {'>', '>', '=', '\n'};
-	char seen[ESN];
-	int i = 0;
-
-	// The first character of the line needs to be '<'
-	if (val == '<')
-	{
-		lexer->advance(lexer, false);
-		val = lexer->lookahead;
-
-		// The second character of the line also needs to be '<'
-		if (val == '<')
-		{
-			while (true)
-			{
-				i++;
-				// Move to the next char
-				lexer->advance(lexer, false);
-				val = lexer->lookahead;
-
-				// Push back
-				seen[i - 1] = seen[i];
-				seen[i] = val;
-
-				if (val == '\n')
-				{
-					insig = true;
-					for (int j = 0; j < ESN; j++)
-					{
-						insig = insig && (seen[j] == tocheck[j]);
-					}
-					break;
-				}
-			}
-		}
-	}
-
-	return(insig);
-};
-
-bool sexp_check(TSLexer* lexer)
-{
-	int32_t val = lexer->lookahead;
-
-	char tocheck[SEXPR] = {'\\', 'S', 'e', 'x', 'p', 'r', '{'};
-
-	bool found;
-	char seen[SEXPR];
-	int i = 0;
-
-	if (val != tocheck[0]) return(false);
-
-	// Assign the seen value to the first element
-	seen[0] = val;
-
-	for (int i = 1; i < SEXPR; i++)
-	{
-		// Move to the next char
-		lexer->advance(lexer, false);
-		val = lexer->lookahead;
-
-		// Push back
-		seen[i] = val;
-
-		if (val == tocheck[SEXPR - 1])
-		{
-			found = true;
-			for (int j = 0; j < ESN; j++)
-			{
-				found = found && (seen[j] == tocheck[j]);
-			}
-			break;
-		}
-	}
-
-	return(found);
+	// If the current character is whitesapce, skip it
+	while (ws(lexer->lookahead))  lexer->advance(lexer, true);
 };
 
 bool rnw_content(TSLexer* lexer)
@@ -126,96 +44,9 @@ bool rnw_content(TSLexer* lexer)
 		lexer->advance(lexer, false);
 	}
 
-
 	lexer->result_symbol = RNW_CONTENT;
 	return(true);
 };
-
-bool lword(TSLexer* lexer)
-{
-	int dbug = 0;
-	bool res = false;
-
-	// The current character
-	int32_t val = lexer->lookahead;
-	bool eof = lexer->eof(lexer);
-
-	if (eof) return(false);
-
-	// If the current character is whitesapce, skip it
-	while (ws(val) && !eof)
-	{
-		// Get the next character
-		lexer->advance(lexer, true);
-		val = lexer->lookahead;
-		eof = lexer->eof(lexer);
-		if (eof) return(false);
-	}
-
-	// If we're at col == 0, and the chacter isn't the beginning of a signature,
-	// we're going to mark it a latex word.
-	// What column are we - 0 indexed
-	int32_t col = lexer->get_column(lexer);
-	if ((!sig_check(lexer)) && (!sexp_check(lexer)))
-	{
-		// So assign the current token to latex word
-		lexer->result_symbol = _LATEX_WORD;
-		// And loop until some kind of whitespace?
-		while (true)
-		{
-			// Get the next character
-			lexer->advance(lexer, false);
-			val = lexer->lookahead;
-			eof = lexer->eof(lexer);
-
-			// Mark the current position as the end
-			lexer->mark_end(lexer);
-
-			// When we've hit whitespace or a Sexpr envir, break
-			if (ws(val) || eof || sexp_check(lexer))
-			{
-				break;
-			}
-		}
-		res = true;
-	}
-	return(res);
-}
-
-bool rnw_sig_beg(TSLexer* lexer)
-{
-	int dbug = 0;
-	bool res = false;
-
-	// What column are we - 0 indexed
-	int32_t col = lexer->get_column(lexer);
-	// Not first column, return false
-	if (col) return(false);
-
-	// The current character
-	int32_t val = lexer->lookahead;
-	bool eof = lexer->eof(lexer);
-
-	// End of file, return false
-	if (eof) return(false);
-
-	// We're at column 0, now is this character '<'
-	if (val == '<')
-	{
-		// Get the next character
-		lexer->advance(lexer, false);
-		val = lexer->lookahead;
-		// And is this character also '<'?
-		if (val == '<') {
-			res = true;
-			lexer->result_symbol = RENV_SIG_BEG;
-			lexer->advance(lexer, false);
-			lexer->mark_end(lexer);
-		}
-	}
-
-	return(res);
-}
 
 bool rnw_sig_end(TSLexer* lexer)
 {
@@ -251,11 +82,100 @@ bool rnw_sig_end(TSLexer* lexer)
 	return(res);
 }
 
-void advance_ws(TSLexer* lexer)
+bool word_or_sig(TSLexer* lexer)
 {
-	// If the current character is whitesapce, skip it
-	while (ws(lexer->lookahead)) lexer->advance(lexer, true);
-};
+	// End of file, return false
+	bool eof = lexer->eof(lexer);
+	if (eof) return(false);
+
+	// Start marking the end before we advace
+	lexer->mark_end(lexer);
+
+	// What column are we - 0 indexed
+	int32_t col = lexer->get_column(lexer);
+	// The current character
+	int32_t val  = lexer->lookahead;
+	int32_t fval = lexer->lookahead;
+
+	int advances = 0;
+
+	// If we're in col0 we could be in a sig
+	if ((col == 0) && (val != '\\')) {
+		bool issig = true;
+		char begcheck[2] = {'<', '<'};
+		for (int i = 0; i < 2; i++)
+		{
+			if (val != begcheck[i])
+			{
+					issig = false;
+					break;
+			}
+			lexer->advance(lexer, false);
+			val = lexer->lookahead;
+			advances++;
+		}
+		if (issig) {
+			lexer->mark_end(lexer);
+			lexer->result_symbol = RENV_SIG_BEG;
+			return(true);
+		}
+	}
+
+
+	// If we're in a command, we need to know if it's a Sexpr, otherwise keep it
+	// going till whitespace or another command start ('\\')
+
+	// If we advanced once already, thenn fval is "<", twice, we wouldn't be here.
+	// So if we're not at a '\\' or whitespace, keep marking the line until we hit whitespace.
+	if (val != '\\')
+	{
+		while ((!ws(val)) && (val != '\\'))
+		{
+			lexer->advance(lexer, false);
+			val = lexer->lookahead;
+			advances++;
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = _LATEX_WORD;
+		return(true);
+	}
+
+	// If we haven't advanced, but now we're at a command begginning, check if
+	// we're in Sexpr, otherwise continut unti space or new command
+	if (val == '\\')
+	{
+		bool is_sexpr = true;
+		char sexpr_check[7] = {'\\', 'S', 'e', 'x', 'p', 'r', '{'};
+		for (int i = 0; i < 7; i++)
+		{
+			if (val != sexpr_check[i])
+			{
+				is_sexpr = false;
+				break;
+			}
+			lexer->advance(lexer, false);
+			val = lexer->lookahead;
+			advances++;
+		}
+
+		if (is_sexpr) {
+			lexer->result_symbol = _LATEX_WORD;
+			return(false);
+		}
+
+		while ((!ws(val)) && (val != '\\'))
+		{
+			lexer->advance(lexer, false);
+			val = lexer->lookahead;
+			advances++;
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = _LATEX_WORD;
+		return(true);
+	}
+
+}
+
 
 void tree_sitter_rnoweb_external_scanner_create()
 {};
@@ -285,27 +205,15 @@ bool tree_sitter_rnoweb_external_scanner_scan(
 
 	bool res;
 
-	/*
-	printf("\n\nNew Call\n");
-	for (int i = 0; i < 4; i++)
-	{
-		printf("v[%d] = %d\t", i, valid_symbols[i]);
-	}
-	printf("\n");
-	*/
-
-
 
 	if (valid_symbols[0] || valid_symbols[1])
 	{
-		res = rnw_sig_beg(lexer);
-		res = res ? res : lword(lexer);
+		res = word_or_sig(lexer);
 	} else if (valid_symbols[2]) {
 		res = rnw_sig_end(lexer);
 	} else if (valid_symbols[3]) {
 		res = rnw_content(lexer);
 	}
-
 
 	return(res);
 };

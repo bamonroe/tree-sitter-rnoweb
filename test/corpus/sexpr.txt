@@ -1,0 +1,62 @@
+==================
+Sexpr command - empty
+==================
+
+a bit of \textit{latex}.
+
+Back again! We all know that 1 + 1 = \Sexpr{}.
+
+---
+
+(source_file
+	(latex)
+	(rinline)
+	(latex)
+)
+
+==================
+Sexpr command - addition
+==================
+
+a bit of \textit{latex}.
+
+Back again! We all know that 1 + 1 = \Sexpr{1 + 1}.
+
+---
+
+(source_file
+	(latex)
+	(rinline
+		(renv_content)
+	)
+	(latex)
+)
+
+==================
+Align environment with complicated statements
+==================
+
+Hello world
+
+\begin{align}
+	\label{eq:smp_rp}
+	\begin{split}
+		\mathit{Buy}  &= \left\lbrace\frac{r}{U(L | r) \geq U(S | r)}\right\rbrace \\
+		              &= \left\lbrace\frac{r}{r \leq \Sexpr{r2(r_buy)}}\right\rbrace \\
+		              &= \left\lbrace\frac{r}{r \leq \Sexpr{r2(r_buy)}}\right\rbrace
+	\end{split}
+\end{align}
+
+---
+
+(source_file
+	(latex)
+	(rinline
+		(renv_content)
+	)
+	(latex)
+	(rinline
+		(renv_content)
+	)
+	(latex)
+)
