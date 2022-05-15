@@ -129,7 +129,7 @@ bool word_or_sig(TSLexer* lexer)
 	// So if we're not at a '\\' or whitespace, keep marking the line until we hit whitespace.
 	if (val != '\\')
 	{
-		while ((!ws(val)) && (val != '\\'))
+		while ((!ws(val)) && (val != '\\') && ! lexer->eof(lexer))
 		{
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
@@ -163,7 +163,7 @@ bool word_or_sig(TSLexer* lexer)
 			return(false);
 		}
 
-		while ((!ws(val)) && (val != '\\'))
+		while ((!ws(val)) && (val != '\\') && ! lexer->eof(lexer))
 		{
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
