@@ -7,6 +7,7 @@ module.exports = grammar({
 
 	externals: $ => [
 		$._latex_word,
+		$.command_name,
 		$.renv_sig_beg,
 		$.renv_sig_end,
 		$.renv_content,
@@ -33,7 +34,8 @@ module.exports = grammar({
 
 		rinline: $ =>
 			seq(
-				'\\Sexpr{',
+				field("Sexpr", $.command_name),
+				"{",
 				optional(alias(/[^}]+/, $.renv_content)),
 				'}',
 			),

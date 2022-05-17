@@ -65,7 +65,18 @@
   {
     "type": "rinline",
     "named": true,
-    "fields": {},
+    "fields": {
+      "Sexpr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": false,
@@ -109,8 +120,8 @@
     "named": false
   },
   {
-    "type": "\\Sexpr{",
-    "named": false
+    "type": "command_name",
+    "named": true
   },
   {
     "type": "renv_content",
@@ -127,6 +138,10 @@
   {
     "type": "renv_val",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
   },
   {
     "type": "}",

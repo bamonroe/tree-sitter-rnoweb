@@ -10,7 +10,9 @@ Back again! We all know that 1 + 1 = \Sexpr{}.
 
 (source_file
 	(latex)
-	(rinline)
+	(rinline
+		(command_name)
+	)
 	(latex)
 )
 
@@ -27,6 +29,7 @@ Back again! We all know that 1 + 1 = \Sexpr{1 + 1}.
 (source_file
 	(latex)
 	(rinline
+		(command_name)
 		(renv_content)
 	)
 	(latex)
@@ -52,10 +55,12 @@ Hello world
 (source_file
 	(latex)
 	(rinline
+		(command_name)
 		(renv_content)
 	)
 	(latex)
 	(rinline
+		(command_name)
 		(renv_content)
 	)
 	(latex)

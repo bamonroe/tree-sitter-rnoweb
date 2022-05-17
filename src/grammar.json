@@ -66,8 +66,16 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "FIELD",
+          "name": "Sexpr",
+          "content": {
+            "type": "SYMBOL",
+            "name": "command_name"
+          }
+        },
+        {
           "type": "STRING",
-          "value": "\\Sexpr{"
+          "value": "{"
         },
         {
           "type": "CHOICE",
@@ -187,6 +195,10 @@
     {
       "type": "SYMBOL",
       "name": "_latex_word"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "command_name"
     },
     {
       "type": "SYMBOL",

@@ -6,13 +6,14 @@
 #include <unistd.h>
 
 #define ESN 4
-#define SEXPR 7
+#define SEXPR 6
 
 enum TokenType {
 	_LATEX_WORD,
+	RENV_INLINE,
 	RENV_SIG_BEG,
 	RENV_SIG_END,
-	RNW_CONTENT,
+	RENV_CONTENT,
 };
 
 bool ws(int32_t val)
@@ -44,7 +45,7 @@ bool rnw_content(TSLexer* lexer)
 		lexer->advance(lexer, false);
 	}
 
-	lexer->result_symbol = RNW_CONTENT;
+	lexer->result_symbol = RENV_CONTENT;
 	return(true);
 };
 
@@ -97,8 +98,6 @@ bool word_or_sig(TSLexer* lexer)
 	int32_t val  = lexer->lookahead;
 	int32_t fval = lexer->lookahead;
 
-	int advances = 0;
-
 	// If we're in col0 we could be in a sig
 	if ((col == 0) && (val != '\\')) {
 		bool issig = true;
@@ -112,7 +111,6 @@ bool word_or_sig(TSLexer* lexer)
 			}
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
-			advances++;
 		}
 		if (issig) {
 			lexer->mark_end(lexer);
@@ -121,19 +119,17 @@ bool word_or_sig(TSLexer* lexer)
 		}
 	}
 
-
 	// If we're in a command, we need to know if it's a Sexpr, otherwise keep it
 	// going till whitespace or another command start ('\\')
 
 	// If we advanced once already, thenn fval is "<", twice, we wouldn't be here.
 	// So if we're not at a '\\' or whitespace, keep marking the line until we hit whitespace.
-	if (val != '\\')
+	if (lexer->lookahead != '\\')
 	{
 		while ((!ws(val)) && (val != '\\') && ! lexer->eof(lexer))
 		{
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
-			advances++;
 		}
 		lexer->mark_end(lexer);
 		lexer->result_symbol = _LATEX_WORD;
@@ -141,12 +137,12 @@ bool word_or_sig(TSLexer* lexer)
 	}
 
 	// If we haven't advanced, but now we're at a command begginning, check if
-	// we're in Sexpr, otherwise continut unti space or new command
-	if (val == '\\')
+	// we're in Sexpr, otherwise continue until space or new command
+	if (lexer->lookahead == '\\')
 	{
 		bool is_sexpr = true;
-		char sexpr_check[7] = {'\\', 'S', 'e', 'x', 'p', 'r', '{'};
-		for (int i = 0; i < 7; i++)
+		char sexpr_check[SEXPR] = {'\\', 'S', 'e', 'x', 'p', 'r'};
+		for (int i = 0; i < SEXPR; i++)
 		{
 			if (val != sexpr_check[i])
 			{
@@ -155,19 +151,18 @@ bool word_or_sig(TSLexer* lexer)
 			}
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
-			advances++;
 		}
 
 		if (is_sexpr) {
-			lexer->result_symbol = _LATEX_WORD;
-			return(false);
+			lexer->mark_end(lexer);
+			lexer->result_symbol = RENV_INLINE;
+			return(true);
 		}
 
 		while ((!ws(val)) && (val != '\\') && ! lexer->eof(lexer))
 		{
 			lexer->advance(lexer, false);
 			val = lexer->lookahead;
-			advances++;
 		}
 		lexer->mark_end(lexer);
 		lexer->result_symbol = _LATEX_WORD;
@@ -175,7 +170,6 @@ bool word_or_sig(TSLexer* lexer)
 	}
 
 }
-
 
 void tree_sitter_rnoweb_external_scanner_create()
 {};
@@ -206,12 +200,12 @@ bool tree_sitter_rnoweb_external_scanner_scan(
 	bool res;
 
 
-	if (valid_symbols[0] || valid_symbols[1])
+	if (valid_symbols[_LATEX_WORD] || valid_symbols[RENV_INLINE] || valid_symbols[RENV_SIG_BEG])
 	{
 		res = word_or_sig(lexer);
-	} else if (valid_symbols[2]) {
+	} else if (valid_symbols[RENV_SIG_END]) {
 		res = rnw_sig_end(lexer);
-	} else if (valid_symbols[3]) {
+	} else if (valid_symbols[RENV_CONTENT]) {
 		res = rnw_content(lexer);
 	}
 
