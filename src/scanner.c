@@ -3,8 +3,6 @@
 #include <string.h>
 #include <tree_sitter/parser.h>
 
-#include <unistd.h>
-
 #define ESN 4
 #define SEXPR 6
 
