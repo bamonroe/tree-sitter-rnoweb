@@ -1,0 +1,95 @@
+==================
+rnw engine
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<engine="lua">>=
+one <- 1 + 1
+@
+
+Back again!
+
+---
+
+(source_file
+	(latex)
+	(rchunk
+        (renv_sig_options
+            (renv_engine
+                (renv_engine_key))
+        )
+		(renv_content)
+	)
+	(latex)
+)
+
+==================
+rnw engine - with option
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<echo = T, engine = "lua", results="asis">>=
+one <- 1 + 1
+@
+
+Back again!
+
+---
+
+(source_file
+	(latex)
+	(rchunk
+        (renv_sig_options
+            (renv_key_pair
+                (renv_key)
+                (renv_val))
+            (renv_engine
+                (renv_engine_key))
+            (renv_key_pair
+                (renv_key)
+                (renv_val)
+            )
+        )
+		(renv_content)
+	)
+	(latex)
+)
+
+==================
+rnw engine - with label and option
+==================
+
+a bit of \textit{latex}.
+
+We all know 2 > 1
+
+<<foo, engine = "lua", results="asis">>=
+one <- 1 + 1
+@
+
+Back again!
+
+---
+
+(source_file
+	(latex)
+	(rchunk
+        (renv_sig_options
+            (renv_label)
+            (renv_engine
+                (renv_engine_key))
+            (renv_key_pair
+                (renv_key)
+                (renv_val)
+            )
+        )
+		(renv_content)
+	)
+	(latex)
+)

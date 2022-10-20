@@ -1,67 +1,98 @@
 const sepBy1 = (rule, sep) => seq(rule, repeat(seq(sep, rule)));
 
-const sepBy = (rule, sep) => optional(sepBy1(rule, sep));
-
 module.exports = grammar({
-	name: 'rnoweb',
+    name: 'rnoweb',
 
-	externals: $ => [
-		$._latex_word,
-		$.command_name,
-		$.renv_sig_beg,
-		$.renv_sig_end,
-		$.renv_content,
-	],
+    externals: $ => [
+        $._latex_word,
+        $.command_name,
+        $._renv_sig_beg,
+        $._renv_sig_end,
+        $.renv_content,
+    ],
 
-	rules: {
-		source_file: $ =>
-			repeat(
-				choice(
-					$.latex,
-					$.rchunk,
-					$.rinline,
-				)
-			),
+    rules: {
+        source_file: $ =>
+            repeat(
+                choice(
+                    $.latex,
+                    $.rchunk,
+                    $.rinline,
+                )
+            ),
 
-		rchunk: $ =>
-			seq(
-				$.renv_sig_beg,
-				optional($._renv_sig_options),
-				$.renv_sig_end,
-				optional($.renv_content),
-				'@'
-			),
+        rchunk: $ =>
+            seq(
+                $._renv_sig_beg,
+                optional($.renv_sig_options),
+                $._renv_sig_end,
+                optional($.renv_content),
+                '@'
+            ),
 
-		rinline: $ =>
-			seq(
-				field("Sexpr", $.command_name),
-				"{",
-				optional(alias(/[^}]+/, $.renv_content)),
-				'}',
-			),
+        rinline: $ =>
+            seq(
+                field("Sexpr", $.command_name),
+                "{",
+                optional(alias(/[^}]+/, $.renv_content)),
+                '}',
+            ),
 
-		_renv_sig_options: $ =>
-			choice(
-				field("label",  /[a-zA-Z_]+[a-zA-Z0-9_]*/),
-				sepBy1($.renv_key_pair, ',')
-			),
+        renv_sig_options: $ =>
+            choice(
+                field("options", $._renv_options),
+                seq(
+                    field("label", alias($.renv_key, $.renv_label)),
+                    optional(seq(",", field("options", $._renv_options)))
+                ),
+            ),
 
-		renv_key_pair: $ =>
-			seq(
-				field("key", $.renv_key),
-				/[ ]*=[ ]*/,
-				field("value", $.renv_val)
-			),
+        _renv_options: $ =>
+            sepBy1(choice(
+                $.renv_key_pair,
+                prec(2, $._renv_engine)
+            ), ","),
 
-		renv_key: $ =>
-			/[a-zA-Z_]+[a-zA-Z0-9_.]*/,
+        _renv_engine: $ =>
+            seq(
+                "engine",
+                "=",
+                alias($.renv_engine_val, $.renv_engine)
+            ),
 
-		renv_val: $ =>
-			/[^,>]+/,
+        renv_engine_val: $ =>
+            choice(
+                seq(
+                    "\"",
+                    field("engine", $.renv_engine_key),
+                    "\""
+                ),
+                seq(
+                    "'",
+                    field("engine", $.renv_engine_key),
+                    "'"
+                )
+            ),
 
-		latex: $ =>
-			prec.right(repeat1(
-				$._latex_word,
-			)),
-	},
+        renv_key_pair: $ =>
+            seq(
+                field("key", $.renv_key),
+                /=[ ]*/,
+                field("value", $.renv_val)
+            ),
+
+        renv_engine_key: $ =>
+            /[a-zA-Z]+[a-zA-Z0-9]*/,
+
+        renv_key: $ =>
+            /[a-zA-Z_]+[a-zA-Z0-9_.]*/,
+
+        renv_val: $ =>
+            /[^,>]+/,
+
+        latex: $ =>
+            prec.right(repeat1(
+                $._latex_word,
+            )),
+    },
 });
