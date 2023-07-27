@@ -7,32 +7,29 @@
 #define SEXPR 6
 
 enum TokenType {
-	_LATEX_WORD,
+	LATEX_WORD,
 	RENV_INLINE,
 	RENV_SIG_BEG,
 	RENV_SIG_END,
 	RENV_CONTENT,
 };
 
-bool ws(int32_t val)
+static bool ws(int32_t val)
 {
 	return(val == ' ' || val == '\t' || val == '\n');
 }
 
-void advance_ws(TSLexer* lexer)
+static void advance_ws(TSLexer* lexer)
 {
 	// If the current character is whitesapce, skip it
 	while (ws(lexer->lookahead))  lexer->advance(lexer, true);
 };
 
-bool rnw_content(TSLexer* lexer)
+static bool rnw_content(TSLexer* lexer)
 {
 	// The current character
 	bool eof = lexer->eof(lexer);
 	if (eof) return(false);
-
-	int32_t col = lexer->get_column(lexer);
-	int32_t val = lexer->lookahead;
 
 	// Going to have to call it at having a "@" in the first column
 	while (
@@ -47,7 +44,7 @@ bool rnw_content(TSLexer* lexer)
 	return(true);
 };
 
-bool rnw_sig_end(TSLexer* lexer)
+static bool rnw_sig_end(TSLexer* lexer)
 {
 	// End of file, return false
 	if (lexer->eof(lexer)) return(false);
@@ -66,10 +63,8 @@ bool rnw_sig_end(TSLexer* lexer)
 		{
 			res = false;
 			break;
-		} else
-		{
-			lexer->advance(lexer, false);
 		}
+		lexer->advance(lexer, false);
 	}
 
 	if (res)
@@ -81,7 +76,7 @@ bool rnw_sig_end(TSLexer* lexer)
 	return(res);
 }
 
-bool word_or_sig(TSLexer* lexer)
+static bool word_or_sig(TSLexer* lexer)
 {
 	// End of file, return false
 	bool eof = lexer->eof(lexer);
@@ -90,14 +85,12 @@ bool word_or_sig(TSLexer* lexer)
 	// Start marking the end before we advace
 	lexer->mark_end(lexer);
 
-	// What column are we - 0 indexed
-	int32_t col = lexer->get_column(lexer);
 	// The current character
 	int32_t val  = lexer->lookahead;
 	int32_t fval = lexer->lookahead;
 
 	// If we're in col0 we could be in a sig
-	if ((col == 0) && (val != '\\')) {
+	if ((lexer->get_column(lexer) == 0) && (val != '\\')) {
 		bool issig = true;
 		char begcheck[2] = {'<', '<'};
 		for (int i = 0; i < 2; i++)
@@ -130,7 +123,7 @@ bool word_or_sig(TSLexer* lexer)
 			val = lexer->lookahead;
 		}
 		lexer->mark_end(lexer);
-		lexer->result_symbol = _LATEX_WORD;
+		lexer->result_symbol = LATEX_WORD;
 		return(true);
 	}
 
@@ -163,28 +156,29 @@ bool word_or_sig(TSLexer* lexer)
 			val = lexer->lookahead;
 		}
 		lexer->mark_end(lexer);
-		lexer->result_symbol = _LATEX_WORD;
+		lexer->result_symbol = LATEX_WORD;
 		return(true);
 	}
 
+	return false;
 }
 
-void tree_sitter_rnoweb_external_scanner_create()
-{};
-void* tree_sitter_rnoweb_external_scanner_destroy(void *payload)
-{};
+void tree_sitter_rnoweb_external_scanner_create() {}
+
+void* tree_sitter_rnoweb_external_scanner_destroy(void *payload) {}
+
 unsigned tree_sitter_rnoweb_external_scanner_serialize(
   void *payload,
   char *buffer
 ) {
 	return 0;
-};
+}
+
 void tree_sitter_rnoweb_external_scanner_deserialize(
   void *payload,
   const char *buffer,
   unsigned length
-)
-{};
+) {}
 
 bool tree_sitter_rnoweb_external_scanner_scan(
   void *payload,
@@ -195,10 +189,10 @@ bool tree_sitter_rnoweb_external_scanner_scan(
 	// Move past whitespace
 	advance_ws(lexer);
 
-	bool res;
+	bool res = false;
 
 
-	if (valid_symbols[_LATEX_WORD] || valid_symbols[RENV_INLINE] || valid_symbols[RENV_SIG_BEG])
+	if (valid_symbols[LATEX_WORD] || valid_symbols[RENV_INLINE] || valid_symbols[RENV_SIG_BEG])
 	{
 		res = word_or_sig(lexer);
 	} else if (valid_symbols[RENV_SIG_END]) {
@@ -207,5 +201,5 @@ bool tree_sitter_rnoweb_external_scanner_scan(
 		res = rnw_content(lexer);
 	}
 
-	return(res);
+	return res;
 };
